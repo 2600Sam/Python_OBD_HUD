@@ -40,26 +40,26 @@ def draw_hud():
 	screen.fill(grey)
 	pygame.draw.circle(screen, black, (int(circle1_x), int(circle_y)), int(circle_rad), 5)
         for step in xrange(0,150,10):
-                angle1 = (angle - ((step / .03) / 1000))
-                line_x = (circle_rad - 10) * math.sin(angle1) + circle1_x
-                line_y = (circle_rad - 10) * math.cos(angle1) + circle_y
+                angle1 = (angle - ((step / .031) / 1000))
+                line_x = (circle_rad - 8) * math.sin(angle1) + circle1_x
+                line_y = (circle_rad - 8) * math.cos(angle1) + circle_y
                 pygame.draw.circle(screen, white, [int(line_x), int(line_y)], 2)
 	pygame.draw.circle(screen, black, (int(circle2_x), int(circle_y)), int(circle_rad), 5)
-        for step in xrange(0,9500,500):
+        for step in xrange(0,9000,500):
                 vcolor = white
-                if step > 4500:
+                if step >= 4500:
                         vcolor = yellow
-                if step > 6000:
+                if step >= 6000:
                         vcolor = red
                 angle2 = (angle - ((step / 1.9) / 1000))
-                line_x = (circle_rad - 10) * math.sin(angle2) + circle2_x
-                line_y = (circle_rad - 10) * math.cos(angle2) + circle_y
+                line_x = (circle_rad - 8) * math.sin(angle2) + circle2_x
+                line_y = (circle_rad - 8) * math.cos(angle2) + circle_y
                 pygame.draw.circle(screen, vcolor, [int(line_x), int(line_y)], 2)
 	pygame.draw.circle(screen, black, (int(circle3_x), int(circle_y)), int(circle_rad), 5)
         for step in xrange(0,110,10):
                 angle3 = (angle - ((step / .022) / 1000))
-                line_x = (circle_rad - 10) * math.sin(angle3) + circle3_x
-                line_y = (circle_rad - 10) * math.cos(angle3) + circle_y
+                line_x = (circle_rad - 8) * math.sin(angle3) + circle3_x
+                line_y = (circle_rad - 8) * math.cos(angle3) + circle_y
                 pygame.draw.circle(screen, white, [int(line_x), int(line_y)], 2)
 	speed_text = headerFont.render("SPEED", True, black)
 	rpm_text = headerFont.render("RPM", True, black)
@@ -102,15 +102,15 @@ while running:
 				running = False
 	draw_hud()
 	speedDisplay = digitFont.render(str(speed), 3, white)
-	angle1 = (angle - ((speed / .03) / 1000))
+	angle1 = (angle - ((speed / .031) / 1000))
         line_x = (circle_rad - 10) * math.sin(angle1) + circle1_x
 	line_y = (circle_rad - 10) * math.cos(angle1) + circle_y
 	pygame.draw.line(screen, blue, [circle1_x, circle_y], [line_x, line_y], 4)
 	
 	rpmDisplay = digitFont.render(str(rpm), 3, white)
-	if rpm > 4500:
+	if rpm >= 4500:
                 vcolor = yellow
-        if rpm > 6000:
+        if rpm >= 6000:
                 vcolor = red
 	angle2 = (angle - ((rpm / 1.9) / 1000))
 	line_x = (circle_rad - 10) * math.sin(angle2) + circle2_x
