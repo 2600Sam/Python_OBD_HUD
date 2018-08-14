@@ -1,13 +1,10 @@
-#Original code from https://www.hackster.io/tinkernut/raspberry-pi-smart-car-8641ca
-#modified by me to add lines and colors
-
 import pygame
 from pygame.locals import *
 import math
 import obd
 pygame.init()
 #connection = obd.OBD()
-connect = obd.Async(fast=False)
+#connect = obd.Async(fast=False)
 screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 screen_w = screen.get_width()
 screen_h = screen.get_height()
@@ -42,8 +39,28 @@ raspberry = 3.141592653
 def draw_hud():
 	screen.fill(grey)
 	pygame.draw.circle(screen, black, (int(circle1_x), int(circle_y)), int(circle_rad), 5)
+        for step in xrange(0,150,10):
+                angle1 = (angle - ((step / .03) / 1000))
+                line_x = (circle_rad - 10) * math.sin(angle1) + circle1_x
+                line_y = (circle_rad - 10) * math.cos(angle1) + circle_y
+                pygame.draw.circle(screen, white, [int(line_x), int(line_y)], 2)
 	pygame.draw.circle(screen, black, (int(circle2_x), int(circle_y)), int(circle_rad), 5)
+        for step in xrange(0,9500,500):
+                vcolor = white
+                if step > 4500:
+                        vcolor = yellow
+                if step > 6000:
+                        vcolor = red
+                angle2 = (angle - ((step / 1.9) / 1000))
+                line_x = (circle_rad - 10) * math.sin(angle2) + circle2_x
+                line_y = (circle_rad - 10) * math.cos(angle2) + circle_y
+                pygame.draw.circle(screen, vcolor, [int(line_x), int(line_y)], 2)
 	pygame.draw.circle(screen, black, (int(circle3_x), int(circle_y)), int(circle_rad), 5)
+        for step in xrange(0,110,10):
+                angle3 = (angle - ((step / .022) / 1000))
+                line_x = (circle_rad - 10) * math.sin(angle3) + circle3_x
+                line_y = (circle_rad - 10) * math.cos(angle3) + circle_y
+                pygame.draw.circle(screen, white, [int(line_x), int(line_y)], 2)
 	speed_text = headerFont.render("SPEED", True, black)
 	rpm_text = headerFont.render("RPM", True, black)
 	load_text = headerFont.render("LOAD", True, black)
@@ -66,22 +83,22 @@ def get_load(l):
 	global load
 	if not l.is_null():
 		load = int(l.value.mangitude)
-connection.watch(obd.commands.SPEED, callback=get_speed)
-connection.watch(obd.commands.RPM, callback=get_rpm)
-connection.watch(obd.commands.ENGINE_LOAD, callback=get_load)
-connection.start()
+#connection.watch(obd.commands.SPEED, callback=get_speed)
+#connection.watch(obd.commands.RPM, callback=get_rpm)
+#connection.watch(obd.commands.ENGINE_LOAD, callback=get_load)
+#connection.start()
 		
 running = True
 while running:
 	for event in pygame.event.get():
 		if event.type == KEYDOWN:
 			if event.key == K_ESCAPE:
-				connection.stop()
-				connection.close()
+				#connection.stop()
+				#connection.close()
 				running = False
 			elif event.type == QUIT:
-				connection.stop()
-				connection.close()
+				#connection.stop()
+				#connection.close()
 				running = False
 	draw_hud()
 	speedDisplay = digitFont.render(str(speed), 3, white)
@@ -111,7 +128,7 @@ while running:
 	screen.blit(speedDisplay,(circle1_x -(circle1_x / 8) + 10, circle_y + 60))
 	pygame.display.update()
 	pygame.display.flip()
-	#rpm += 20
+	#rpm += 5
 	#speed += .05
 	#load += .05
 pygame.quit()
