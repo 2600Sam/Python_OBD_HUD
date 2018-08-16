@@ -2,9 +2,13 @@ import pygame
 from pygame.locals import *
 import math
 import obd
+from obd import OBDStatus
+
 pygame.init()
+
 #connection = obd.OBD()
 #connect = obd.Async(fast=False)
+
 screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 screen_w = screen.get_width()
 screen_h = screen.get_height()
@@ -20,7 +24,8 @@ rpm_text_y = screen_h * .25
 load_text_x = screen_w * .75
 load_text_y = screen_h * .25
 headerFont = pygame.font.SysFont("Arial", 50)
-digitFont = pygame.font.SysFont("Arial", 50)
+digitFont = pygame.font.SysFont("Arial", 45)
+numberFont = pygame.font.SysFont("Arial", 10)
 white = (255, 255, 255)
 black = (0, 0, 0)
 green = (0, 255, 0)
@@ -38,12 +43,16 @@ raspberry = 3.141592653
 
 def draw_hud():
 	screen.fill(grey)
+	#print (ports)
 	pygame.draw.circle(screen, black, (int(circle1_x), int(circle_y)), int(circle_rad), 5)
         for step in xrange(0,150,10):
                 angle1 = (angle - ((step / .031) / 1000))
                 line_x = (circle_rad - 8) * math.sin(angle1) + circle1_x
                 line_y = (circle_rad - 8) * math.cos(angle1) + circle_y
                 pygame.draw.circle(screen, white, [int(line_x), int(line_y)], 2)
+                number_text = numberFont.render(str(step), True, white)
+                number_text_loc = number_text.get_rect(center=(line_x, line_y+8))
+                screen.blit(number_text, number_text_loc)
 	pygame.draw.circle(screen, black, (int(circle2_x), int(circle_y)), int(circle_rad), 5)
         for step in xrange(0,9000,500):
                 vcolor = white
@@ -54,12 +63,18 @@ def draw_hud():
                 angle2 = (angle - ((step / 1.9) / 1000))
                 line_x = (circle_rad - 8) * math.sin(angle2) + circle2_x
                 line_y = (circle_rad - 8) * math.cos(angle2) + circle_y
+                number_text = numberFont.render(str(step), True, vcolor)
+                number_text_loc = number_text.get_rect(center=(line_x, line_y+8))
+                screen.blit(number_text, number_text_loc)
                 pygame.draw.circle(screen, vcolor, [int(line_x), int(line_y)], 2)
 	pygame.draw.circle(screen, black, (int(circle3_x), int(circle_y)), int(circle_rad), 5)
         for step in xrange(0,110,10):
                 angle3 = (angle - ((step / .022) / 1000))
                 line_x = (circle_rad - 8) * math.sin(angle3) + circle3_x
                 line_y = (circle_rad - 8) * math.cos(angle3) + circle_y
+                number_text = numberFont.render(str(step), True, white)
+                number_text_loc = number_text.get_rect(center=(line_x, line_y+8))
+                screen.blit(number_text, number_text_loc)
                 pygame.draw.circle(screen, white, [int(line_x), int(line_y)], 2)
 	speed_text = headerFont.render("SPEED", True, black)
 	rpm_text = headerFont.render("RPM", True, black)
