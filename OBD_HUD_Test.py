@@ -43,7 +43,6 @@ raspberry = 3.141592653
 
 def draw_hud():
 	screen.fill(grey)
-	#print (ports)
 	pygame.draw.circle(screen, black, (int(circle1_x), int(circle_y)), int(circle_rad), 5)
         for step in xrange(0,150,10):
                 angle1 = (angle - ((step / .031) / 1000))
